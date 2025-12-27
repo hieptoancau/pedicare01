@@ -1,0 +1,8 @@
+{
+  "name": "PediCare - Trợ thủ Sức khỏe Bé yêu",
+  "description": "Ứng dụng đặt lịch khám nhi khoa hiện đại, tích hợp AI tư vấn triệu chứng và quản lý hồ sơ sức khỏe cho bé.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
