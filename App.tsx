@@ -12,6 +12,7 @@ import ProfileScreen from './screens/ProfileScreen';
 import AISymptomChecker from './screens/AISymptomChecker';
 import LuckyWheelScreen from './screens/LuckyWheelScreen';
 import DoctorDashboardScreen from './screens/DoctorDashboardScreen';
+import AdminDashboardScreen from './screens/AdminDashboardScreen';
 import { Doctor, Appointment, ChildProfile } from './types';
 import { MOCK_CHILDREN } from './constants';
 
@@ -72,6 +73,7 @@ const App: React.FC = () => {
           <Route path="/ai-checker" element={<AISymptomChecker />} />
           <Route path="/lucky-wheel" element={<LuckyWheelScreen />} />
           <Route path="/doctor-dashboard" element={<DoctorDashboardScreen />} />
+          <Route path="/admin" element={<AdminDashboardScreen />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </HashRouter>

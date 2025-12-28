@@ -376,26 +376,24 @@ const ProfileScreen: React.FC = () => {
         </div>
       </div>
 
-      {/* Demo: Switch to Doctor Dashboard */}
+      {/* Demo Actions Section */}
       <div className="px-4 mt-6">
-        <div className="bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-100 dark:border-indigo-800 rounded-2xl p-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="size-10 rounded-full bg-indigo-500 text-white flex items-center justify-center">
-                <span className="material-symbols-outlined text-[22px]">medical_services</span>
-              </div>
-              <div>
-                <p className="text-sm font-bold text-indigo-900 dark:text-indigo-100">Chế độ Bác sĩ</p>
-                <p className="text-[10px] text-indigo-700 dark:text-indigo-300">Dành cho nhân viên y tế</p>
-              </div>
-            </div>
-            <button 
-              onClick={() => navigate('/doctor-dashboard')}
-              className="bg-indigo-600 text-white text-[11px] font-bold px-4 py-2 rounded-lg shadow-sm hover:bg-indigo-700 transition-colors"
-            >
-              Chuyển ngay
-            </button>
-          </div>
+        <h3 className="mb-2 ml-1 text-sm font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Chế độ trải nghiệm</h3>
+        <div className="grid grid-cols-2 gap-3">
+          <button 
+            onClick={() => navigate('/doctor-dashboard')}
+            className="flex items-center justify-center gap-2 p-4 bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-100 dark:border-indigo-800 rounded-2xl text-indigo-700 dark:text-indigo-300 font-bold hover:bg-indigo-100 transition-all text-sm"
+          >
+            <span className="material-symbols-outlined text-[20px]">medical_services</span>
+            Bác sĩ
+          </button>
+          <button 
+            onClick={() => navigate('/admin')}
+            className="flex items-center justify-center gap-2 p-4 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl text-slate-700 dark:text-slate-300 font-bold hover:bg-slate-200 transition-all text-sm"
+          >
+            <span className="material-symbols-outlined text-[20px]">admin_panel_settings</span>
+            Quản trị
+          </button>
         </div>
       </div>
 

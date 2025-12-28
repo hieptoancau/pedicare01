@@ -2,15 +2,21 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MOCK_MEDICAL_HISTORY, MOCK_CHILDREN } from '../constants';
-import { MedicalRecord, ChildProfile } from '../types';
+import { MedicalRecord, ChildProfile, PrescriptionItem } from '../types';
 
-type DoctorView = 'appointments' | 'patients' | 'record-detail' | 'patient-detail';
+type DoctorView = 'appointments' | 'patients' | 'record-detail' | 'patient-detail' | 'new-examination';
 
 const DoctorDashboardScreen: React.FC = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<DoctorView>('appointments');
   const [selectedRecord, setSelectedRecord] = useState<MedicalRecord | null>(null);
   const [selectedChild, setSelectedChild] = useState<ChildProfile | null>(null);
+
+  // State cho việc khám bệnh mới
+  const [newDiagnosis, setNewDiagnosis] = useState('');
+  const [newRecommendation, setNewRecommendation] = useState('');
+  const [newPrescriptions, setNewPrescriptions] = useState<PrescriptionItem[]>([]);
+  const [currentMedicine, setCurrentMedicine] = useState({ name: '', dosage: '', instruction: '' });
 
   // Giả lập danh sách lịch hẹn hôm nay của bác sĩ
   const todayAppointments = [
@@ -25,6 +31,34 @@ const DoctorDashboardScreen: React.FC = () => {
       setSelectedChild(child);
       setActiveTab('patient-detail');
     }
+  };
+
+  const handleStartExamine = () => {
+    setNewDiagnosis('');
+    setNewRecommendation('');
+    setNewPrescriptions([]);
+    setActiveTab('new-examination');
+  };
+
+  const addMedicine = () => {
+    if (currentMedicine.name && currentMedicine.dosage) {
+      setNewPrescriptions([...newPrescriptions, { 
+        medicineName: currentMedicine.name, 
+        dosage: currentMedicine.dosage, 
+        instruction: currentMedicine.instruction 
+      }]);
+      setCurrentMedicine({ name: '', dosage: '', instruction: '' });
+    }
+  };
+
+  const removeMedicine = (index: number) => {
+    setNewPrescriptions(newPrescriptions.filter((_, i) => i !== index));
+  };
+
+  const handleSaveExamination = () => {
+    // Trong thực tế sẽ gọi API lưu database
+    alert(`Đã lưu bệnh án cho ${selectedChild?.name}. Bé đã có thể xem đơn thuốc trên ứng dụng PediCare.`);
+    setActiveTab('appointments');
   };
 
   const renderHeader = () => (
@@ -57,7 +91,7 @@ const DoctorDashboardScreen: React.FC = () => {
       <div className="flex w-full bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-1 border border-slate-100 dark:border-slate-700">
         <button 
           onClick={() => setActiveTab('appointments')}
-          className={`flex-1 py-3 rounded-xl text-sm font-bold transition-all ${activeTab === 'appointments' || activeTab === 'patient-detail' ? 'bg-primary text-white shadow-md' : 'text-slate-500'}`}
+          className={`flex-1 py-3 rounded-xl text-sm font-bold transition-all ${activeTab === 'appointments' || activeTab === 'patient-detail' || activeTab === 'new-examination' ? 'bg-primary text-white shadow-md' : 'text-slate-500'}`}
         >
           Lịch khám
         </button>
@@ -76,7 +110,7 @@ const DoctorDashboardScreen: React.FC = () => {
       {(activeTab === 'appointments' || activeTab === 'patients') && renderHeader()}
       {(activeTab === 'appointments' || activeTab === 'patients') && renderTabs()}
 
-      <div className={`flex-1 overflow-y-auto p-4 ${activeTab === 'patient-detail' || activeTab === 'record-detail' ? 'pt-4' : 'pt-6'}`}>
+      <div className={`flex-1 overflow-y-auto p-4 ${activeTab === 'patient-detail' || activeTab === 'record-detail' || activeTab === 'new-examination' ? 'pt-4' : 'pt-6'}`}>
         
         {/* VIEW: TODAY APPOINTMENTS */}
         {activeTab === 'appointments' && (
@@ -106,6 +140,122 @@ const DoctorDashboardScreen: React.FC = () => {
                 </div>
               </button>
             ))}
+          </div>
+        )}
+
+        {/* VIEW: NEW EXAMINATION (FORM) */}
+        {activeTab === 'new-examination' && selectedChild && (
+          <div className="animate-in fade-in slide-in-from-right-4 duration-300 pb-32">
+            <div className="flex items-center justify-between mb-6">
+              <button 
+                onClick={() => setActiveTab('patient-detail')}
+                className="size-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center"
+              >
+                <span className="material-symbols-outlined">close</span>
+              </button>
+              <h2 className="text-lg font-bold">Khám bệnh: {selectedChild.name}</h2>
+              <div className="size-10"></div>
+            </div>
+
+            <div className="space-y-6">
+              {/* Diagnosis & Recommendation */}
+              <div className="bg-white dark:bg-slate-800 p-5 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700">
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="material-symbols-outlined text-primary">edit_note</span>
+                  <h3 className="font-bold">Chuẩn đoán & Lời dặn</h3>
+                </div>
+                <div className="space-y-4">
+                  <div>
+                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Chuẩn đoán bệnh</label>
+                    <input 
+                      value={newDiagnosis}
+                      onChange={(e) => setNewDiagnosis(e.target.value)}
+                      placeholder="VD: Viêm họng cấp, sốt siêu vi..."
+                      className="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-primary/20"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Lời dặn & Chỉ định</label>
+                    <textarea 
+                      value={newRecommendation}
+                      onChange={(e) => setNewRecommendation(e.target.value)}
+                      placeholder="VD: Cho bé uống nhiều nước, tái khám sau 3 ngày..."
+                      rows={3}
+                      className="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-primary/20 resize-none"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Prescription Form */}
+              <div className="bg-white dark:bg-slate-800 p-5 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700">
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="material-symbols-outlined text-green-500">pill</span>
+                  <h3 className="font-bold">Kê đơn thuốc</h3>
+                </div>
+                
+                {/* Medicine Input Row */}
+                <div className="flex flex-col gap-3 p-3 bg-slate-50 dark:bg-slate-900 rounded-2xl mb-4 border border-slate-100 dark:border-slate-800">
+                  <input 
+                    placeholder="Tên thuốc"
+                    value={currentMedicine.name}
+                    onChange={(e) => setCurrentMedicine({...currentMedicine, name: e.target.value})}
+                    className="w-full bg-white dark:bg-slate-800 border-none rounded-lg py-2 px-3 text-sm"
+                  />
+                  <div className="flex gap-2">
+                    <input 
+                      placeholder="Liều dùng (VD: 2 gói/ngày)"
+                      value={currentMedicine.dosage}
+                      onChange={(e) => setCurrentMedicine({...currentMedicine, dosage: e.target.value})}
+                      className="flex-1 bg-white dark:bg-slate-800 border-none rounded-lg py-2 px-3 text-sm"
+                    />
+                    <button 
+                      onClick={addMedicine}
+                      className="bg-primary text-white px-4 rounded-lg font-bold text-sm"
+                    >
+                      Thêm
+                    </button>
+                  </div>
+                  <input 
+                    placeholder="Cách dùng (Sáng 1, tối 1 sau ăn...)"
+                    value={currentMedicine.instruction}
+                    onChange={(e) => setCurrentMedicine({...currentMedicine, instruction: e.target.value})}
+                    className="w-full bg-white dark:bg-slate-800 border-none rounded-lg py-2 px-3 text-[11px]"
+                  />
+                </div>
+
+                {/* List of Added Medicines */}
+                <div className="space-y-3">
+                  {newPrescriptions.map((p, i) => (
+                    <div key={i} className="flex items-center justify-between p-3 bg-white dark:bg-slate-700 rounded-xl border border-slate-100 dark:border-slate-600">
+                      <div className="flex-1">
+                        <p className="text-sm font-bold">{p.medicineName}</p>
+                        <p className="text-[10px] text-slate-500">{p.dosage} • {p.instruction}</p>
+                      </div>
+                      <button 
+                        onClick={() => removeMedicine(i)}
+                        className="text-red-400 hover:text-red-600"
+                      >
+                        <span className="material-symbols-outlined text-[20px]">delete</span>
+                      </button>
+                    </div>
+                  ))}
+                  {newPrescriptions.length === 0 && (
+                    <p className="text-center text-xs text-slate-400 py-4 italic">Chưa có thuốc nào trong đơn</p>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-full max-w-md px-4 z-50">
+               <button 
+                onClick={handleSaveExamination}
+                disabled={!newDiagnosis}
+                className={`w-full py-4 rounded-2xl font-bold shadow-lg transition-all active:scale-95 ${!newDiagnosis ? 'bg-slate-300 cursor-not-allowed text-white' : 'bg-green-600 text-white shadow-green-600/30'}`}
+               >
+                 LƯU BỆNH ÁN & HOÀN TẤT
+               </button>
+            </div>
           </div>
         )}
 
@@ -167,7 +317,10 @@ const DoctorDashboardScreen: React.FC = () => {
             </div>
 
             <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-full max-w-md px-4">
-               <button className="w-full bg-primary text-white py-4 rounded-2xl font-bold shadow-lg shadow-primary/30 active:scale-95 transition-all">
+               <button 
+                onClick={handleStartExamine}
+                className="w-full bg-primary text-white py-4 rounded-2xl font-bold shadow-lg shadow-primary/30 active:scale-95 transition-all"
+               >
                  BẮT ĐẦU KHÁM MỚI
                </button>
             </div>
@@ -264,12 +417,14 @@ const DoctorDashboardScreen: React.FC = () => {
       </div>
       
       {/* Bottom status bar indicator for doctor mode */}
-      <div className="px-6 py-2 mt-auto">
-        <div className="bg-emerald-50 dark:bg-emerald-900/20 rounded-full py-2 px-4 flex items-center justify-center gap-2 border border-emerald-100 dark:border-emerald-800/30">
-          <div className="size-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
-          <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-tighter">Trực tuyến • Bác sĩ An</span>
+      {(activeTab === 'appointments' || activeTab === 'patients') && (
+        <div className="px-6 py-2 mt-auto">
+          <div className="bg-emerald-50 dark:bg-emerald-900/20 rounded-full py-2 px-4 flex items-center justify-center gap-2 border border-emerald-100 dark:border-emerald-800/30">
+            <div className="size-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
+            <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-tighter">Trực tuyến • Bác sĩ An</span>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
