@@ -1,4 +1,3 @@
-
 import { Doctor, ChildProfile, MedicalRecord } from './types';
 
 export const MOCK_DOCTORS: Doctor[] = [
@@ -15,7 +14,7 @@ export const MOCK_DOCTORS: Doctor[] = [
     price: 350000,
     experience: "15 năm",
     patients: "2.5k+",
-    bio: "Bác sĩ An là chuyên gia hàng đầu về các bệnh hô hấp nhi khoa, với hơn 15 năm kinh nghiệm tại Bệnh viện Nhi Đồng 1. Ông nổi tiếng với phương pháp điều trị hạn chế kháng sinh."
+    bio: "Bác sĩ An là chuyên gia hàng đầu về các bệnh hô hấp nhi khoa, with hơn 15 năm kinh nghiệm tại Bệnh viện Nhi Đồng 1. Ông nổi tiếng với phương pháp điều trị hạn chế kháng sinh."
   },
   {
     id: 2,
@@ -45,7 +44,7 @@ export const MOCK_DOCTORS: Doctor[] = [
     price: 500000,
     experience: "8 năm",
     patients: "1.2k+",
-    bio: "Chuyên gia tâm lý nhi khoa, hỗ trợ điều trị các rối loạn phát triển, lo âu và trầm cảm ở trẻ em và thanh thiếu niên."
+    bio: "Chuyên gia tâm lý nhi khoa, hỗ trợ điều trị các rối loạn phát triển, lo âu và trầm cảm ở trẻ em."
   },
   {
     id: 4,
@@ -60,7 +59,7 @@ export const MOCK_DOCTORS: Doctor[] = [
     price: 400000,
     experience: "20 năm",
     patients: "5k+",
-    bio: "Trưởng khoa Tai Mũi Họng với bề dày kinh nghiệm trong phẫu thuật Amidan và VA bằng phương pháp Coblator hiện đại cho trẻ."
+    bio: "Trưởng khoa Tai Mũi Họng với bề dày kinh nghiệm trong phẫu thuật Amidan và VA cho trẻ nhỏ."
   },
   {
     id: 5,
@@ -83,92 +82,50 @@ export const MOCK_CHILDREN: ChildProfile[] = [
   { id: 1, name: "Bé Bi (Nguyễn Văn An)", age: 3, birthDate: "2021-05-15" },
   { id: 2, name: "Bé Bông (Trần Thị Bích)", age: 5, birthDate: "2019-02-20" },
   { id: 3, name: "Bé Sóc (Lê Gia Huy)", age: 2, birthDate: "2022-10-10" },
-  { id: 4, name: "Bé Na (Phạm Mỹ Linh)", age: 4, birthDate: "2020-07-05" }
+  { id: 4, name: "Bé Na (Phạm Mỹ Linh)", age: 4, birthDate: "2020-07-05" },
+  { id: 5, name: "Bé Tít (Đỗ Hoàng Nam)", age: 1, birthDate: "2023-01-12" },
+  { id: 6, name: "Bé Miu (Lý Khánh Vân)", age: 6, birthDate: "2018-11-30" },
+  { id: 7, name: "Bé Su (Vũ Hải Đăng)", age: 2, birthDate: "2021-12-25" },
+  { id: 8, name: "Bé Bắp (Ngô Minh Khôi)", age: 4, birthDate: "2020-03-14" },
+  { id: 9, name: "Bé Kem (Đặng Tú Anh)", age: 2, birthDate: "2022-04-02" },
+  { id: 10, name: "Bé Bon (Phạm Gia Bảo)", age: 5, birthDate: "2019-09-09" }
 ];
 
-export const MOCK_MEDICAL_HISTORY: MedicalRecord[] = [
-  {
-    id: "rec1",
-    childId: 1,
-    date: "2023-11-20",
-    doctorName: "BS. Nguyễn Văn An",
-    diagnosis: "Viêm phế quản cấp tính",
-    recommendation: "Cho bé uống nhiều nước ấm, giữ ấm cổ họng, tái khám sau 3 ngày nếu sốt không giảm.",
-    prescriptions: [
-      { medicineName: "Augmentin 250mg", dosage: "2 gói/ngày", instruction: "Sáng 1, Chiều 1 sau ăn" },
-      { medicineName: "Prospan (Siro ho)", dosage: "5ml/lần", instruction: "Ngày 3 lần" },
-      { medicineName: "Hapacol 150", dosage: "1 gói/lần", instruction: "Chỉ uống khi sốt > 38.5 độ" }
-    ]
-  },
-  {
-    id: "rec2",
-    childId: 1,
-    date: "2023-08-15",
-    doctorName: "BS. Trần Thị Bích",
-    diagnosis: "Rối loạn tiêu hóa nhẹ",
-    recommendation: "Hạn chế đồ dầu mỡ, bổ sung men vi sinh.",
-    prescriptions: [
-      { medicineName: "Enterogermina", dosage: "1 ống/ngày", instruction: "Uống trực tiếp buổi sáng" },
-      { medicineName: "Hydrite (Oresol)", dosage: "Pha 1 gói/200ml", instruction: "Uống rải rác trong ngày" }
-    ]
-  },
-  {
-    id: "rec3",
-    childId: 2,
-    date: "2023-12-01",
-    doctorName: "BS. Lê Thị Thu",
-    diagnosis: "Rối loạn giấc ngủ",
-    recommendation: "Giảm thời gian sử dụng thiết bị điện tử trước khi ngủ 2 tiếng. Tạo không gian ngủ yên tĩnh.",
-    prescriptions: [
-      { medicineName: "Siro thảo dược giúp ngủ ngon", dosage: "10ml/ngày", instruction: "Uống trước khi ngủ 30 phút" }
-    ]
-  },
-  {
-    id: "rec4",
-    childId: 3,
-    date: "2023-12-05",
-    doctorName: "BS. Phạm Nam",
-    diagnosis: "Viêm tai giữa",
-    recommendation: "Vệ sinh mũi họng sạch sẽ. Không cho bé nằm bú bình.",
-    prescriptions: [
-      { medicineName: "Zinnat 125mg", dosage: "2 lần/ngày", instruction: "Sáng 1, Chiều 1 sau ăn" },
-      { medicineName: "Otrivin 0.05%", dosage: "Nhỏ 2 lần/ngày", instruction: "Mỗi bên 1 giọt" }
-    ]
-  },
-  {
-    id: "rec5",
-    childId: 4,
-    date: "2023-12-07",
-    doctorName: "BS. Hoàng My",
-    diagnosis: "Chàm sữa (Viêm da cơ địa)",
-    recommendation: "Dưỡng ẩm da thường xuyên 4-5 lần/ngày. Tránh các tác nhân gây dị ứng như bụi bẩn, lông thú.",
-    prescriptions: [
-      { medicineName: "Cetaphil Moisturizing Cream", dosage: "Thoa nhiều lần", instruction: "Thoa sau khi tắm và khi da khô" },
-      { medicineName: "Fucidin H", dosage: "Thoa 2 lần/ngày", instruction: "Thoa lớp mỏng vùng da viêm nặng" }
-    ]
-  },
-  {
-    id: "rec6",
-    childId: 2,
-    date: "2023-09-10",
-    doctorName: "BS. Nguyễn Văn An",
-    diagnosis: "Cúm mùa",
-    recommendation: "Cách ly bé tại phòng thoáng mát. Theo dõi sát nhiệt độ.",
-    prescriptions: [
-      { medicineName: "Tamiflu 30mg", dosage: "2 lần/ngày", instruction: "Uống liên tục 5 ngày" },
-      { medicineName: "Efferalgan 250mg", dosage: "Khi cần", instruction: "Sốt trên 38.5 độ" }
-    ]
-  },
-  {
-    id: "rec7",
-    childId: 3,
-    date: "2023-10-25",
-    doctorName: "BS. Trần Thị Bích",
-    diagnosis: "Thiếu sắt & Suy dinh dưỡng nhẹ",
-    recommendation: "Bổ sung thực phẩm giàu sắt như thịt bò, gan, trứng. Uống nhiều nước cam để hấp thụ sắt tốt hơn.",
-    prescriptions: [
-      { medicineName: "Ferlatum", dosage: "1 chai/ngày", instruction: "Uống trong bữa ăn sáng" },
-      { medicineName: "Pedia Poly-vite", dosage: "1ml/ngày", instruction: "Uống buổi sáng" }
-    ]
+const generateMockHistory = (): MedicalRecord[] => {
+  const records: MedicalRecord[] = [];
+  const diagnoses = [
+    "Viêm họng cấp", "Sốt siêu vi", "Rối loạn tiêu hóa", "Viêm phế quản", 
+    "Viêm tai giữa", "Chàm sữa", "Viêm mũi dị ứng", "Suy dinh dưỡng nhẹ", 
+    "Tay chân miệng độ 1", "Phát ban da"
+  ];
+  // Fix: Renamed 'name' to 'medicineName' to satisfy the PrescriptionItem interface
+  const meds = [
+    { medicineName: "Hapacol 150", dosage: "1 gói", instruction: "Khi sốt > 38.5" },
+    { medicineName: "Augmentin 250", dosage: "2 lần/ngày", instruction: "Sau ăn" },
+    { medicineName: "Enterogermina", dosage: "1 ống/ngày", instruction: "Sáng" },
+    { medicineName: "Prospan", dosage: "5ml", instruction: "Ngày 3 lần" },
+    { medicineName: "Cetaphil", dosage: "Thoa ngoài da", instruction: "Khi khô" }
+  ];
+
+  for (let i = 1; i <= 50; i++) {
+    const childId = (i % 10) + 1;
+    const docId = (i % 5) + 1;
+    const doc = MOCK_DOCTORS[docId - 1];
+    
+    records.push({
+      id: `rec${i}`,
+      childId: childId,
+      date: `2023-${(i % 12) + 1 < 10 ? '0' : ''}${(i % 12) + 1}-${(i % 28) + 1 < 10 ? '0' : ''}${(i % 28) + 1}`,
+      doctorName: doc.name,
+      diagnosis: diagnoses[i % diagnoses.length],
+      recommendation: "Theo dõi nhiệt độ bé, cho bé uống nhiều nước và nghỉ ngơi đầy đủ. Tái khám nếu có dấu hiệu bất thường.",
+      prescriptions: [
+        meds[i % meds.length],
+        meds[(i + 1) % meds.length]
+      ]
+    });
   }
-];
+  return records;
+};
+
+export const MOCK_MEDICAL_HISTORY: MedicalRecord[] = generateMockHistory();
